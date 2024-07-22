@@ -1,7 +1,9 @@
 <?php
 class DController{
+    protected $load = array();
     public function __construct(){
-        echo 'This is root Controller';
+        $this->load = new Load();
+        
     }
 }
 ?>

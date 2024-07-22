@@ -10,3 +10,4 @@ class post extends DController
         echo 'Chi tiết bài viết';
     }
 }
+?>
