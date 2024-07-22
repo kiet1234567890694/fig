@@ -6,41 +6,48 @@
     <title>Fig</title>
 </head>
 <body>
-    <?php
-        include('../fig/inc/header.php');
-    ?>
+    
     <h1>
         <?php
             include_once('../fig/system/libs/Main.php');
             include_once('../fig/system/libs/DController.php');
+            include_once('../fig/system/libs/Load.php');
         
 
             // $main = new Main();
 
-            $url = $_GET['url'];
-            $url = rtrim($url,'/');
-            //explode phá hủy ('/', trong chuỗi $url)
-            $url = explode('/',$url);
+            $url = isset($_GET['url']) ? $_GET['url'] : NULL;
 
-            include_once('../fig/app/controllers/'.$url[0].'.php');
-            
-            $ctrler = new $url[0]();
-            $ctrler->{$url[1]}($url[2],$url[3]);
+            if($url!=NUll){
+                $url = rtrim($url,'/');
+                //explode phá hủy ('/', trong chuỗi $url)
+                $url = explode('/', filter_var($url, FILTER_SANITIZE_URL));
+            }else{
+                unset($url);
+            }
 
+            if(isset($url[0])){
 
-            echo '<pre>';
-            print_r($url);
-            echo '<pre>';
+                include_once('../fig/app/controllers/'.$url[0].'.php');
+                $ctlr = new $url[0]();
+                if(isset($url[2])){
+                    $ctlr->{$url[1]}($url[2]);
+                }else{
+                    
+                    if(isset($url[1])){
+                        $ctlr->{$url[1]}();
+                    }else{
 
+                    }
 
-            echo 'class: '.$url[0]. '<br/>';
-            echo 'methods: '.$url[1]. '<br/>';
-            echo 'para: '.$url[2]. '<br/>';
-            echo 'id: '.$url[3]. '<br/>';
+                }
+            }else{
+                include_once('../fig/app/controllers/index.php');
+                $index = new index();
+                $index->homepage();
+            }
         ?>
     </h1>
-    <?php
-        include('../fig/inc/footer.php');
-    ?>
+   
 </body>
 </html>

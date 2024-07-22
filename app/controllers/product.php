@@ -5,10 +5,9 @@ class product extends DController
     {
         //parent::__construct();
     }
-    public function chitietsanpham($id, $slug)
+    public function chitietsanpham()
     {
         echo 'Chi tiết sản phẩm';
-        echo $id;
-        echo $slug;
     }
 }
+?>
